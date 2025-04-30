@@ -23,11 +23,17 @@ const login = async (formData: FormData): Promise<void> => {
         credentials: "include",
       }
     );
-    console.log(">>> API URL:", process.env.INTERNAL_API_URL);
 
     if (!response.ok) {
-      const data = await response.json();
-      throw new Error(data.error || "خطا در ورود");
+      let errorMessage = "خطا در ورود";
+      const text = await response.text();
+      try {
+        const data = JSON.parse(text);
+        errorMessage = data.error || errorMessage;
+      } catch {
+        console.error("پاسخ غیر JSON از سرور:", text);
+      }
+      throw new Error(errorMessage);
     }
 
     redirect("/dashboard");
