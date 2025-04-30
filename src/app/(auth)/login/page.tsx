@@ -1,3 +1,4 @@
+import { error } from "console";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -25,18 +26,22 @@ const login = async (formData: FormData): Promise<void> => {
     );
 
     if (!response.ok) {
-      let errorMessage = "خطا در ورود";
-      const text = await response.text();
-      try {
-        const data = JSON.parse(text);
-        errorMessage = data.error || errorMessage;
-      } catch {
-        console.error("پاسخ غیر JSON از سرور:", text);
-      }
-      throw new Error(errorMessage);
-    }
+      // let errorMessage = "خطا در ورود";
+      const text = await response;
+      console.log("🚀 ~ login ~ text:", text);
 
-    redirect("/dashboard");
+      // const data = JSON.parse(text);
+      // redirect("/dashboard");
+
+      // console.log("🚀 ~ login ~ data:", data)
+      // errorMessage = data.error || errorMessage;
+      // } catch {
+      //   console.error("پاسخ غیر JSON از سرور:", text);
+      // }
+      // throw new Error(errorMessage);
+    } else {
+      console.log("🚀 ~ login ~ text:", error);
+    }
   } catch (error) {
     console.error("Login error:", error);
     throw error;
